@@ -1,4 +1,5 @@
 "use client";
+
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -16,13 +17,12 @@ export default function Profile() {
   return (
     status === "authenticated" &&
     session.user && (
-    <div>
       <div>
-        <p>Welcome, {session.user.name}</p>
+        <h1>ProfileUser</h1>
+        <p>ชื่อผู้ใช้งาน {session.user.name}</p>
         <p>Email: {session.user.email}</p>
-        <button onClick={() => signOut({ callbackUrl: "/" })}>Logout</button>
+        <button onClick={() => signOut({ callbackUrl: "/" })}>ออกจากระบบ</button>
       </div>
-    </div>
     )
   );
 }

@@ -14,7 +14,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage(""); // เคลียร์ข้อผิดพลาดเก่า
+    setErrorMessage("");
 
     try {
       const result = await signIn("credentials", {
@@ -29,18 +29,23 @@ export default function SignIn() {
         router.push("/profile");
       }
     } catch (error) {
-      console.log("error", error);
-      setErrorMessage("An unexpected error occurred. Please try again.");
+      console.log("ข้อผิดพลาด", error);
+      setErrorMessage("เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองอีกครั้ง");
     } finally {
       setLoading(false);
     }
   };
 
+  const handleSignUp = () => {
+    router.push("/signup");
+  };
+
   return (
     <div>
+      <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">อีเมล</label>
           <input
             id="email"
             type="email"
@@ -50,7 +55,7 @@ export default function SignIn() {
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">รหัสผ่าน</label>
           <input
             id="password"
             type="password"
@@ -61,9 +66,15 @@ export default function SignIn() {
         </div>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <button type="submit" disabled={loading}>
-          {loading ? "Signing In..." : "Sign In"}
+          {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
         </button>
       </form>
+
+      <div>
+        <button onClick={handleSignUp}>
+          สมัครสมาชิก
+        </button>
+      </div>
     </div>
   );
 }

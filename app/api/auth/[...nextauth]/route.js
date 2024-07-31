@@ -1,10 +1,8 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GitHubProvider from "next-auth/providers/github";
 import { PrismaClient } from "@prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-
-import GitHubProvider from "next-auth/providers/github";
-
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
@@ -14,8 +12,8 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { label: "อีเมล", type: "email" },
+        password: { label: "รหัสผ่าน", type: "password" },
       },
       async authorize(credentials, req) {
         if (!credentials) return null;
@@ -23,17 +21,14 @@ export const authOptions = {
           where: { email: credentials.email },
         });
 
-        if (
-          user &&
-          (await bcrypt.compare(credentials.password, user.password))
-        ) {
+        if (user && await bcrypt.compare(credentials.password, user.password)) {
           return {
             id: user.id,
             name: user.name,
             email: user.email,
           };
         } else {
-          throw new Error("Invalid email or password");
+          throw new Error("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
         }
       },
     }),

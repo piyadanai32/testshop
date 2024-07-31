@@ -13,4 +13,12 @@ model User {
   email     String @unique
   password  String
 }
-
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  imageUrl    String  // ฟิลด์นี้ใช้เก็บ URL ของรูปภาพ
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
