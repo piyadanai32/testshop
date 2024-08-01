@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -10,11 +12,17 @@ export default function SignupPage() {
   });
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+  const router = useRouter(); // นำเข้า useRouter
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  useEffect(() => {
+    // ตรวจสอบสถานะการตรวจสอบสิทธิ์ที่นี่
+    // เพิ่มรหัสการตรวจสอบสถานะ
+  }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,6 +87,7 @@ export default function SignupPage() {
           />
         </div>
         <button type="submit">ยืนยัน</button>
+        <button type="button" onClick={() => signOut({ callbackUrl: "/" })}>Login</button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {message && <p style={{ color: 'green' }}>{message}</p>}

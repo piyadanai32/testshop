@@ -15,7 +15,7 @@ export const authOptions = {
         email: { label: "อีเมล", type: "email" },
         password: { label: "รหัสผ่าน", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials) return null;
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },

@@ -5,8 +5,7 @@ const prisma = new PrismaClient();
 
 export async function POST(req) {
   try {
-    const data = await req.json();
-    const { email, password } = data;
+    const { email, password } = await req.json();
 
     if (!email || !password) {
       return new Response(JSON.stringify({ error: "ข้อมูลที่จำเป็นขาดหายไป" }), { status: 400 });
@@ -17,10 +16,7 @@ export async function POST(req) {
     });
 
     if (user && await bcrypt.compare(password, user.password)) {
-      return new Response(JSON.stringify({
-        msg: "เข้าสู่ระบบสำเร็จ",
-        data: user,
-      }), { status: 200 });
+      return new Response(JSON.stringify({ msg: "เข้าสู่ระบบสำเร็จ", data: user }), { status: 200 });
     } else {
       return new Response(JSON.stringify({ error: "อีเมลหรือรหัสผ่านไม่ถูกต้อง" }), { status: 400 });
     }

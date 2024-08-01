@@ -5,8 +5,7 @@ const prisma = new PrismaClient();
 
 export async function POST(req) {
   try {
-    const data = await req.json();
-    const { name, email, password } = data;
+    const { name, email, password } = await req.json();
 
     if (!name || !email || !password) {
       return new Response(JSON.stringify({ error: "ข้อมูลที่จำเป็นขาดหายไป" }), { status: 400 });
@@ -22,10 +21,7 @@ export async function POST(req) {
       },
     });
 
-    return new Response(JSON.stringify({
-      msg: "User created successfully",
-      data: user,
-    }), { status: 201 });
+    return new Response(JSON.stringify({ msg: "สร้างผู้ใช้สำเร็จแล้ว", data: user }), { status: 201 });
   } catch (err) {
     console.error("เกิดข้อผิดพลาดระหว่างการสร้างผู้ใช้:", err);
     return new Response(JSON.stringify({ error: "ข้อผิดพลาดภายในเซิร์ฟเวอร์" }), { status: 500 });

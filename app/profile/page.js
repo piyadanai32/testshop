@@ -8,6 +8,9 @@ export default function Profile() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  const handleHome = () => {
+  router.push("/home");
+  };
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
@@ -15,13 +18,13 @@ export default function Profile() {
   }, [status, router]);
 
   return (
-    status === "authenticated" &&
-    session.user && (
+    status === "authenticated" && session.user && (
       <div>
-        <h1>ProfileUser</h1>
-        <p>ชื่อผู้ใช้งาน {session.user.name}</p>
+        <p>Welcome, {session.user.name}</p>
         <p>Email: {session.user.email}</p>
+        <button onClick={handleHome}>home</button>
         <button onClick={() => signOut({ callbackUrl: "/" })}>ออกจากระบบ</button>
+
       </div>
     )
   );
